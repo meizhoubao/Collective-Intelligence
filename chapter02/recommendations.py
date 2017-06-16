@@ -84,3 +84,23 @@ def getRecommendations(prefs, person, similarity=sim_pearson):
     rankings.sort()
     rankings.reverse()
     return rankings
+
+# My own version of transformPrefs
+def transformPrefs_my_own_version(prefs):
+    movies = {}
+    watchers = prefs.keys()
+
+    for w in watchers:
+        for m in prefs[w]:
+            if m not in movies: movies[m] = {}
+            movies[m][w] = prefs[w][m]
+
+    return movies
+
+def transformPrefs(prefs):
+    result = {}
+    for person in prefs:
+        for item in prefs[person]:
+            result.setdefault(item, {})
+            result[item][person] = prefs[person][item]
+    return result
